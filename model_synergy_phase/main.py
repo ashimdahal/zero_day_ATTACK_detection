@@ -1,3 +1,4 @@
+from os import truncate
 import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
@@ -161,12 +162,11 @@ class BaseNet(nn.Module):
 
 
 class ClassifierMLP(BaseNet):
-    def __init__(self, activation, input_dim, hidden_1, hidden_2, hidden_3, out):
+    def __init__(self, activation, input_dim, hidden_1, hidden_2, out):
         super().__init__()
         self.hidden_1 = nn.Linear(input_dim, hidden_1)
         self.hidden_2 = nn.Linear(hidden_1, hidden_2)
-        self.hidden_3 = nn.Linear(hidden_2, hidden_3)
-        self.out = nn.Linear(hidden_3, out)
+        self.out = nn.Linear(hidden_2, out)
         self.activation = activation
 
     def forward(self, x):
@@ -174,8 +174,25 @@ class ClassifierMLP(BaseNet):
         x2 = self.activation(x1)
         x3 = self.hidden_2(x2)
         x4 = self.activation(x3)
-        x5 = self.hidden_3(x4)
-        x6 = self.activation(x5)
-        out = self.out(x6)
-        # We don't apply activation to final layer or use softmax ni pytorch
+        out = self.out(x4)
+
         return out
+
+
+activation = nn.ReLU()
+input_dim = X.shape[1]
+hidden_1, hidden_2 = 128, 64
+out = df["label"].nunique()
+
+truncated_model = ClassifierMLP(activation, input_dim, hidden_1, hidden_2, out)
+weighted_truncated_model = ClassifierMLP(activation, input_dim, hidden_1, hidden_2, out)
+
+truncated_model.load_state_dict(torch.load("../models/model_truncated_four_class.pth"))
+weighted_truncated_model.load_state_dict(
+    torch.load("../models/model_truncated_weighted_four_class.pth")
+)
+
+truncated_model.eval()
+weighted_truncated_model.eval()
+
+# build a machine learning layer here and use it to test the given models

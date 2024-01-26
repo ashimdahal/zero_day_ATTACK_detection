@@ -16,4 +16,4 @@ module load cuda
 module load pytorch
 
 # Actual command to be executed
-srun -p gpu --gres gpu:1 -n 1 -N 1 --pty --mem 10000 -t 10:00 python3 main.py
+srun -p gpu --gres gpu:1 -n 1 -N 1 --pty --mem 10000 -t 10:00 python3 test.py
