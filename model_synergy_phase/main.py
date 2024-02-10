@@ -1,4 +1,3 @@
-from os import truncate
 import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
@@ -54,7 +53,7 @@ col_names = [
     "label",
 ]
 
-df = pd.read_csv("../data/kddcup.data.gz", names=col_names)
+df: pd.DataFrame = pd.read_csv("../data/kddcup.data.gz", names=col_names)
 
 label_mapping = {
     # Type: probe
@@ -104,6 +103,20 @@ label_mapping = {
 }
 
 df.replace(label_mapping, inplace=True)
+
+
+num_cols = df._get_numeric_data().columns
+cate_cols = list(set(df.columns) - set(num_cols))
+
+category_mapping = {}
+for category in cate_cols:
+    labels, unique_values = pd.factorize(df[category])
+    mapping = {value: label for label, value in enumerate(unique_values)}
+    df[category] = labels
+    category_mapping[category] = mapping
+
+df: pd.DataFrame = df[[col for col in df if df[col].nunique() > 1]]  # type:ignore
+
 
 X = torch.tensor(df.drop("label", axis=1).values.astype(np.float32))
 y = torch.tensor(df["label"].values, dtype=torch.long)
@@ -195,4 +208,5 @@ weighted_truncated_model.load_state_dict(
 truncated_model.eval()
 weighted_truncated_model.eval()
 
+# build a machine learning layer here and use it to test the given models
 # build a machine learning layer here and use it to test the given models
