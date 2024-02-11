@@ -1,0 +1,15 @@
+no change     /homes/01/axdahal/miniconda3/condabin/conda
+no change     /homes/01/axdahal/miniconda3/bin/conda
+no change     /homes/01/axdahal/miniconda3/bin/conda-env
+no change     /homes/01/axdahal/miniconda3/bin/activate
+no change     /homes/01/axdahal/miniconda3/bin/deactivate
+no change     /homes/01/axdahal/miniconda3/etc/profile.d/conda.sh
+no change     /homes/01/axdahal/miniconda3/etc/fish/conf.d/conda.fish
+no change     /homes/01/axdahal/miniconda3/shell/condabin/Conda.psm1
+no change     /homes/01/axdahal/miniconda3/shell/condabin/conda-hook.ps1
+no change     /homes/01/axdahal/miniconda3/lib/python3.11/site-packages/xontrib/conda.xsh
+no change     /homes/01/axdahal/miniconda3/etc/profile.d/conda.csh
+no change     /homes/01/axdahal/.bashrc
+No action taken.
+(4898431, 42)
+torch.Size([4898431, 41])

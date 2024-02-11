@@ -1,0 +1,10 @@
+
+CondaError: Run 'conda init' before 'conda activate'
+
+srun: error: ioctl(TIOCGWINSZ): Inappropriate ioctl for device
+srun: error: Not using a pseudo-terminal, disregarding --pty option
+Traceback (most recent call last):
+  File "data_synthesis.py", line 131, in <module>
+    df.to_csv("./df_with_predictions.csv", index = false)
+NameError: name 'false' is not defined
+srun: error: gpu001: task 0: Exited with exit code 1
