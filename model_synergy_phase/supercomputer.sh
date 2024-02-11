@@ -14,7 +14,5 @@
 module load cuda-toolkit/11.6.2
 module load python/3.8.6
 
-conda init
-conda activate torch
 # Actual command to be executed
 srun -p gpu --gres gpu:1 -n 1 -N 1 --pty --mem 32000 -t 10:00 python data_synthesis.py
