@@ -64,9 +64,13 @@ for category in cate_cols:
     df[category] = labels
     category_mapping[category] = mapping
 
-df: pd.DataFrame = df[[col for col in df if df[col].nunique() > 1]]  # type:ignore
+# print(df.shape)
+# df: pd.DataFrame = df[[col for col in df if df[col].nunique() > 1]]  # type:ignore
 
+print(df.shape)
 X = torch.tensor(df.drop("label", axis=1).values.astype(np.float32))
+
+print(X.shape)
 
 synthesized_dl = DataLoader(TensorDataset(X), batch_size=len(X), shuffle=False)
 
@@ -92,7 +96,7 @@ class ClassifierMLP(nn.Module):
 activation = nn.ReLU()
 input_dim = X.shape[1]
 hidden_1, hidden_2 = 128, 64
-out = df["label"].nunique()
+out = 4 #since we only have 4 classes on our pretrained models
 
 truncated_model = ClassifierMLP(activation, input_dim, hidden_1, hidden_2, out)
 weighted_truncated_model = ClassifierMLP(activation, input_dim, hidden_1, hidden_2, out)
@@ -110,13 +114,19 @@ weighted_truncated_model.eval()
 
 with torch.no_grad():
     for data in synthesized_dl:
-        output_truncated = truncated_model(data)
-        output_weighted_truncated = weighted_truncated_model(data)
+        output_truncated = truncated_model(data[0])
+        output_weighted_truncated = weighted_truncated_model(data[0])
 
-        flat_truncated = output_truncated.view(-1).to("cpu").numpy()
-        flat_weighted_truncated = output_weighted_truncated.view(-1).to("cpu").numpy()
+        flat_truncated = output_truncated.to("cpu").numpy()
+        flat_weighted_truncated = output_weighted_truncated.to("cpu").numpy()
 
-        df["truncated_predictions"] = flat_truncated
-        df["weighted_truncated_predictions"] = flat_truncated
+        outputs = ["Normal", "Probe", "DoS", "U/A"]
 
-df.to_csv("./df_with_predictions.csv")
+        for i in range(flat_truncated.shape[1]):
+            df[f"truncated_prediction_{outputs[i]}"] = flat_truncated[:,i]
+
+        for i in range(flat_weighted_truncated.shape[1]):
+            df[f"weighted_truncated_{outputs[i]}"] = flat_weighted_truncated[:,i]
+
+df.to_csv("./df_with_predictions.csv", index = False)
+print("completed")
