@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #SBATCH --job-name=Deep_Learning_classification            # Job name
 #SBATCH --output=output.log          # Output file name
@@ -12,8 +11,10 @@
 #SBATCH --time=10:00                 # Time limit
 
 # Load necessary modules or activate virtual environment
-module load cuda
-module load pytorch
+module load cuda-toolkit/11.6.2
+module load python/3.8.6
 
+conda init
+conda activate torch
 # Actual command to be executed
-srun -p gpu --gres gpu:1 -n 1 -N 1 --pty --mem 10000 -t 10:00 python3 test.py
+srun -p gpu --gres gpu:1 -n 1 -N 1 --pty --mem 32000 -t 10:00 python data_synthesis.py
