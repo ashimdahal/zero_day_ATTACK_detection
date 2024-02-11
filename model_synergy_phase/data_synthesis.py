@@ -51,7 +51,7 @@ col_names = [
     "label",
 ]
 
-df: pd.DataFrame = pd.read_csv("../data/kddcup.data.gz", names=col_names)
+df = pd.read_csv("../data/kddcup.data.gz", names=col_names)
 
 
 num_cols = df._get_numeric_data().columns
@@ -120,13 +120,17 @@ with torch.no_grad():
         flat_truncated = output_truncated.to("cpu").numpy()
         flat_weighted_truncated = output_weighted_truncated.to("cpu").numpy()
 
-        outputs = ["Normal", "Probe", "DoS", "U/A"]
+        outputs = ["Normal", "Probe", "DoS", "U_A"]
 
+        print(flat_truncated.shape[1])
         for i in range(flat_truncated.shape[1]):
-            df[f"truncated_prediction_{outputs[i]}"] = flat_truncated[:,i]
+            print(f"truncated_model_{outputs[i]}")
+            df[f'truncated_prediction_{outputs[i]}'] = flat_truncated[:,i]
+
 
         for i in range(flat_weighted_truncated.shape[1]):
             df[f"weighted_truncated_{outputs[i]}"] = flat_weighted_truncated[:,i]
 
+df.drop(col_names, axis=1, inplace=True)
 df.to_csv("./df_with_predictions.csv", index = False)
 print("completed")
