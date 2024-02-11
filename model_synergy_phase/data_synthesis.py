@@ -130,7 +130,7 @@ with torch.no_grad():
 
         for i in range(flat_weighted_truncated.shape[1]):
             df[f"weighted_truncated_{outputs[i]}"] = flat_weighted_truncated[:,i]
-
+col_names.remove("label")
 df.drop(col_names, axis=1, inplace=True)
 df.to_csv("./df_with_predictions.csv", index = False)
 print("completed")
