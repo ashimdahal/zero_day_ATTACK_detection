@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
+import torch.nn.functional as F
 
 import pandas as pd
 import numpy as np
@@ -139,6 +140,7 @@ class ClassifierMLP(nn.Module):
         x4 = self.activation(x3)
         out = self.out(x4)
 
+        out = F.softmax(out, dim=1)
         return out
 
 
