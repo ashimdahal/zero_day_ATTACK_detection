@@ -53,6 +53,55 @@ col_names = [
 
 df = pd.read_csv("../data/kddcup.data.gz", names=col_names)
 
+label_mapping = {
+    # Type: probe
+    "back.": 1,
+    "land.": 1,
+    "neptune.": 1,
+    "pod.": 1,
+    "smurf.": 1,
+    "teardrop.": 1,
+    "apache2.": 1,
+    "udpstorm.": 1,
+    "processtable.": 1,
+    "worm.": 1,
+    # Type: DOS
+    "satan.": 2,
+    "ipsweep.": 2,
+    "nmap.": 2,
+    "portsweep.": 2,
+    "mscan.": 2,
+    "saint.": 2,
+    # Type: Unauthorized Access
+    "guess_passwd.": 3,
+    "ftp_write.": 3,
+    "imap.": 3,
+    "phf.": 3,
+    "multihop.": 3,
+    "warezmaster.": 3,
+    "warezclient.": 3,
+    "spy.": 3,
+    "xlock.": 3,
+    "xsnoop.": 3,
+    "snmpguess.": 3,
+    "snmpgetattack.": 3,
+    "httptunnel.": 3,
+    "sendmail.": 3,
+    "named.": 3,
+    "mailbomb.": 3,
+    "buffer_overflow.": 3,
+    "loadmodule.": 3,
+    "rootkit.": 3,
+    "perl.": 3,
+    "sqlattack.": 3,
+    "xterm.": 3,
+    "ps.": 3,
+    # Type: Normal
+    "normal.": 0,
+}
+
+df.replace(label_mapping, inplace=True)
+
 
 num_cols = df._get_numeric_data().columns
 cate_cols = list(set(df.columns) - set(num_cols))
