@@ -34,6 +34,6 @@ svc_clf = LinearSVC(dual="auto", tol=1e-05, random_state=42)
 svc_clf.fit(X, y)
 joblib.dump(svc_clf, "supportvector_classifier.joblib")
 
-lr_clf = LogisticRegression(random_state=42)
+lr_clf = LogisticRegression(random_state=42, solver='liblinear', max_iter=3000)
 lr_clf.fit(X, y)
 joblib.dump(lr_clf, "LogisticRegression_classifier.joblib")
