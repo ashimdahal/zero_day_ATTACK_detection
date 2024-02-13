@@ -13,4 +13,4 @@
 module load python/3.8.6
 
 # Actual command to be executed
-srun python data_synthesis.py
+srun python post_mortem_analysis.py
