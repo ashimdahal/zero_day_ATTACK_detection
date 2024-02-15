@@ -1,4 +1,5 @@
 import joblib
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import LinearSVC
@@ -8,8 +9,6 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 
 import torch
-
-# from torch.utils.data import TensorDataset, DataLoader
 
 df: pd.DataFrame = pd.read_csv("./df_with_predictions.tar")
 cols = list(df.columns)
@@ -30,10 +29,12 @@ dt_clf = DecisionTreeClassifier(random_state=42, max_depth=5)
 dt_clf.fit(X, y)
 joblib.dump(dt_clf, "decisiontree_classifier.joblib")
 
+
 svc_clf = LinearSVC(dual="auto", tol=1e-05, random_state=42)
 svc_clf.fit(X, y)
 joblib.dump(svc_clf, "supportvector_classifier.joblib")
 
-lr_clf = LogisticRegression(random_state=42, solver='liblinear', max_iter=3000)
+
+lr_clf = LogisticRegression(random_state=42, solver="liblinear", max_iter=3000)
 lr_clf.fit(X, y)
 joblib.dump(lr_clf, "LogisticRegression_classifier.joblib")
