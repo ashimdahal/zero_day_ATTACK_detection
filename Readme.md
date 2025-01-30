@@ -1,6 +1,8 @@
 # Zero Day Attack Detection
 
-## This repo is a work in progress and daily updates are being made to the entire codebase; documentation research objectives, and entire paper coming soon. 
+
+arxiv paper of the study: https://arxiv.org/abs/2501.16638
+
 
 Dataset: https://www.kaggle.com/datasets/galaxyh/kdd-cup-1999-data/
 
